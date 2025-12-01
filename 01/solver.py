@@ -30,16 +30,24 @@ pos = 50
 prev = True
 
 for line in lines:
+    assert pos < 100
+    assert pos >= 0
+
     d = line[0]
     n = int(line[1:])
-    for i in range(n):
-        if d == "L":
-            pos -= 1
-        else:
-            pos += 1
-        pos %= 100
-        if pos == 0:
+    result += n // 100
+    n = n % 100
+
+    if d == "L":
+        new_pos = pos - n
+        if pos != 0 and new_pos <= 0:
             result += 1
+        pos = new_pos % 100
+    elif d == "R":
+        new_pos = pos + n
+        if new_pos > 99:
+            result += 1
+        pos = new_pos % 100
 
 # Part 2 = 6368
 print(f"answer = {result}")
