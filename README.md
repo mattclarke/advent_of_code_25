@@ -15,13 +15,13 @@ The gotcha is that when it is at zero from the previous move, do not count it mo
 An alternative for part 2 which does not use string replace: again use a starting substring as before but compare it to each subsequent "chunk" to see if it repeats for the whole string.
 ```
 input = 123123123
-try 1:
+Try 1:
     Chunks are 1, 2, 3, 1, 2, 3, 1, 2, 3
     Does not match with second chunk (2)
-try 12:
+Try 12:
     Chunks are 12, 31, 23, 12, 3
     Does not match with second chunk (31)
-try 123:
+Try 123:
     Chunks are 123, 123, 123
     Matches
 ```
