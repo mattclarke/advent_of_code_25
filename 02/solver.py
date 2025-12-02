@@ -39,3 +39,28 @@ for line in lines:
 
 # Part 2 = 43872163557
 print(f"answer = {result}")
+
+# Second attempt without string replace
+result = 0
+
+for line in lines:
+    first, last = (int(x) for x in line.split("-"))
+    for x in range(first, last + 1):
+        s = str(x)
+        for i in range(1, len(s) // 2 + 1):
+            v = s[:i]
+            if len(s) % i != 0:
+                continue
+            j = i
+            valid = True
+            while j < len(s):
+                if s[j:j+i] != v:
+                    valid = False
+                    break
+                j += i
+            if valid:
+                result += x
+                break
+
+# Part 2 = 43872163557
+print(f"answer = {result}")
