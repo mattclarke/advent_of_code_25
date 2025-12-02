@@ -31,7 +31,7 @@ for line in lines:
     first, last = (int(x) for x in line.split("-"))
     for x in range(first, last + 1):
         s = str(x)
-        for i in range(0, len(s) // 2 + 1):
+        for i in range(1, len(s) // 2 + 1):
             v = s[:i]
             if s.replace(v, '') == '':
                 result += x
