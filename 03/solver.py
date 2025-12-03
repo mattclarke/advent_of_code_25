@@ -46,3 +46,20 @@ for line in lines:
 
 # Part 2 = 171388730430281
 print(f"answer = {result}")
+
+# Do it without recursion.
+result = 0
+
+for line in lines:
+    start = 0
+    ans = []
+    for i in range(11, -1, -1):
+        a = len(line) - i
+        m = max(line[start:a])
+        start += line[start:].index(m) + 1
+        ans.append(m)
+    result += int(("".join(str(x) for x in ans)))
+
+
+# Part 2 = 171388730430281
+print(f"answer = {result}")
