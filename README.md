@@ -30,6 +30,6 @@ Try 123:
 - Part 1: Find the first occurance of the highest number that isn't in the last position then find the highest value in the remaining sub-list.
 - Part 2: Similar but using recursion. For the first value (a) it must be the highest value in the range `[0:-11]` because we need 12 values, the second value (b) must be the highest value in the range `[index of a + 1:-10]` and so on...
 
-## Day 3
-- Part 1: Put the bales/rolls in a set then count the neighbours.
+## Day 4
+- Part 1: Put the bales/rolls in a set then count the neighbours for each one.
 - Part 2: Reuse the code from part 1 but store the co-ordinates of the moveable bales and remove those from the set. Repeat until no more bales can be removed.
