@@ -33,3 +33,7 @@ Try 123:
 ## Day 4
 - Part 1: Put the bales/rolls in a set then count the neighbours for each one.
 - Part 2: Reuse the code from part 1 but store the co-ordinates of the moveable bales and remove those from the set. Repeat until no more bales can be removed.
+
+## Day 5
+- Part 1: Simple nested loop to check if the items fit in any of the ranges.
+- Part 2: First sort the ranges so that overlaps are easier to handle. Loop over the ranges while keeping track of the highest value seen (pos). If pos is less than the lower bound of the range add the whole range, if pos is greater than the lowest bound add the range from pos to the end of the range, or if pos is greater than the end of the range skip the whole range.  
