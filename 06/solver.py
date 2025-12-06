@@ -6,7 +6,8 @@ FILE = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
 with open(FILE) as f:
     PUZZLE_INPUT = f.read()
 
-lines = [line for line in PUZZLE_INPUT.split("\n") if line]
+# Insert leading whitespace to make part 2 cleaner.
+lines = [" " + line for line in PUZZLE_INPUT.split("\n") if line]
 
 cols = []
 for line in lines:
@@ -18,10 +19,10 @@ for line in lines:
 
 result = 0
 
-for c in cols:
-    op = c[~0]
-    ans = int(c[0])
-    for n in c[1:-1]:
+for col in cols:
+    op = col.pop()
+    ans = int(col.pop(0))
+    for n in col:
         if op == "*":
             ans *= int(n)
         elif op == "+":
@@ -38,14 +39,14 @@ result = 0
 
 operators = lines.pop().split()
 
-c = 0
+col_num = 0
 foo = []
 
-for c in range(len(lines[0])):
+for col_num in range(len(lines[0])):
     chars = []
-    for l in lines:
-        if l[~c] != " ":
-            chars.append(l[~c])
+    for line in lines:
+        if line[~col_num] != " ":
+            chars.append(line[~col_num])
     if chars:
         foo.append(int("".join(chars)))
     else:
@@ -62,19 +63,7 @@ for c in range(len(lines[0])):
         result += ans
 
         foo = []
-    c += 1
-
-op = operators.pop()
-ans = foo.pop(0)
-for f in foo:
-    if op == "*":
-        ans *= f
-    elif op == "+":
-        ans += f
-    else:
-        assert False
-
-result += ans
+    col_num += 1
 
 # Part 2 = 9434900032651
 print(f"answer = {result}")

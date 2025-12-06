@@ -36,4 +36,8 @@ Try 123:
 
 ## Day 5
 - Part 1: Simple nested loop to check if the items fit in any of the ranges.
-- Part 2: First sort the ranges so that overlaps are easier to handle. Loop over the ranges while keeping track of the highest value seen (pos). If pos is less than the lower bound of the range add the whole range, if pos is greater than the lowest bound add the range from pos to the end of the range, or if pos is greater than the end of the range skip the whole range.  
+- Part 2: First sort the ranges so that overlaps are easier to handle. Loop over the ranges while keeping track of the highest value seen (pos). If pos is less than the lower bound of the range add the whole range, if pos is greater than the lowest bound add the range from pos to the end of the range, or if pos is greater than the end of the range skip the whole range. 
+
+## Day 5
+- Part 1: Rearrange the data so all the data for each column is in it's own list with the operator at the end. Apply the operator to the rest of the list.
+- Part 2: Remove the operator row and go through the original data starting from the right-most column. For each column collect the chars, create an int from them and store in a list. When a column is empty apply the corresponding operator to the list. Repeat until all columns done.
