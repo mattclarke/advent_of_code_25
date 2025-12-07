@@ -53,3 +53,31 @@ print(f"answer = {len(DP)}")
 
 # Part 2 = 40999072541589
 print(f"answer = {result}")
+
+# Internet solution - Pascal's triangle like solution
+#          1
+#         1^1
+#         1 1
+#        1^2^1
+#        1 2 1
+#       1^121^1
+#       1 121 1
+#      1^2^311^1
+start = lines[0].index("S")
+beams = {start: 1}
+
+for line in lines[1:]:
+    next_beams = {}
+    for b, c in beams.items():
+        if line[b] == "^":
+            x = next_beams.get(b - 1, 0)
+            next_beams[b - 1] = x + c
+            x = next_beams.get(b + 1, 0)
+            next_beams[b + 1] = x + c
+        else:
+            x = next_beams.get(b, 0)
+            next_beams[b] = x + c
+    beams = next_beams
+
+# Part 2 = 40999072541589
+print(f"answer = {sum(beams.values())}")

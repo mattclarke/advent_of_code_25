@@ -45,3 +45,5 @@ Try 123:
 ## Day 6
 - Part 1: Follow each beam through each layer and count how many splits happen. Use a set for the beams to avoid duplicate splits.
 - Part 2: Count the unique routes through, but DP on the splits otherwise it will take forever. The size of the DP dictionary is also the answer for part 1.
+
+Internet solution: Pascal's triangle like, see code.
