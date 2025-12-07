@@ -41,3 +41,7 @@ Try 123:
 ## Day 5
 - Part 1: Rearrange the data so all the data for each column is in it's own list with the operator at the end. Apply the operator to the rest of the list.
 - Part 2: Remove the operator row and go through the original data starting from the right-most column. For each column collect the chars, create an int from them and store in a list. When a column is empty apply the corresponding operator to the list. Repeat until all columns done.
+
+## Day 6
+- Part 1: Follow each beam through each layer and count how many splits happen. Use a set for the beams to avoid duplicate splits.
+- Part 2: Count the unique routes through, but DP on the splits otherwise it will take forever. The size of the DP dictionary is also the answer for part 1.

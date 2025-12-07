@@ -1,6 +1,4 @@
-import copy
 import sys
-from collections import deque
 
 
 FILE = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
@@ -28,9 +26,10 @@ for line in lines[1:]:
 # Part 1 = 1640
 print(f"answer = {result}")
 
-result = 0
 start = lines[0].index("S")
 beams = {start}
+
+DP = {}
 
 
 def solve(ln, r):
@@ -38,12 +37,19 @@ def solve(ln, r):
         return 1
 
     if lines[ln][r] == "^":
-        return solve(ln + 1, r - 1) + solve(ln + 1, r + 1)
+        if (ln, r) in DP:
+            return DP[(ln, r)]
+        ans = solve(ln + 1, r - 1) + solve(ln + 1, r + 1)
+        DP[(ln, r)] = ans
+        return ans
     else:
         return solve(ln + 1, r)
 
 
-print(solve(1, start))
+result = solve(1, start)
 
-# Part 2 =
+# Part 1 = 1640
+print(f"answer = {len(DP)}")
+
+# Part 2 = 40999072541589
 print(f"answer = {result}")
