@@ -11,7 +11,6 @@ with open(FILE) as f:
 lines = [line.strip() for line in PUZZLE_INPUT.split("\n") if line]
 
 result = 0
-
 start = lines[0].index("S")
 beams = {start}
 
@@ -30,6 +29,21 @@ for line in lines[1:]:
 print(f"answer = {result}")
 
 result = 0
+start = lines[0].index("S")
+beams = {start}
+
+
+def solve(ln, r):
+    if ln == len(lines):
+        return 1
+
+    if lines[ln][r] == "^":
+        return solve(ln + 1, r - 1) + solve(ln + 1, r + 1)
+    else:
+        return solve(ln + 1, r)
+
+
+print(solve(1, start))
 
 # Part 2 =
 print(f"answer = {result}")
