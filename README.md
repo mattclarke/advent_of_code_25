@@ -49,7 +49,7 @@ Try 123:
 Internet solution: Pascal's triangle like, see code.
 
 ## Day 8
-- Part 1: Calculate all the node to node distances and create a dict of distance to node pair. Sort the keys to get the 1000 shortest. For each distance connect the two nodes. Do a BFS for each node to calculate the connected nodes and add to a set (to avoid duplicates). From the set pick the three longest circuits.
+- Part 1: Calculate all the node to node distances and create a dict of distance to node pair. Sort the keys to get the 1000 shortest. For each distance connect the two nodes. Do a BFS for each node to calculate the number of connected nodes then pick the three longest circuits. To avoid duplication only allow visiting a node once.
 - Part 2: Loop through all the connections starting from the shortest in a way similar to part 1 but for each connection add the two nodes to all nodes that connect to those two nodes. Continue until all 1000 nodes are connected in one circuit. Slow at ~80 seconds (Pypy).
 
 Speed up: After connecting each pair, check to see if one of the pair connects to the other 1000 via a BFS. If it doesn't then continue connecting pairs. Takes ~3 seconds (Pypy).
