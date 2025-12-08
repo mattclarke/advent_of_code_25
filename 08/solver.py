@@ -111,7 +111,7 @@ for i, l in enumerate(lines):
     parents.append(i)
     rank.append(0)
 
-e = 0
+joined_edges = 0
 
 for d in ds:
     (a, b) = distances[d]
@@ -122,8 +122,8 @@ for d in ds:
     if x == y:
         # Forms a loop so reject
         continue
-    e += 1
-    if e == NUM_BOXES - 1:
+    joined_edges += 1
+    if joined_edges == NUM_BOXES - 1:
         result = a[0] * b[0]
         break
 
@@ -136,3 +136,4 @@ for d in ds:
         rank[x] += 1
 
 print(f"answer = {result}")
+
