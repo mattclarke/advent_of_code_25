@@ -71,22 +71,22 @@ for d in ds:
     x = connections.get(a, set())
     x.add(b)
     connections[a] = x
-    for i in x:
-        y = connections.get(i, set())
-        y = y.union(x)
-        connections[i] = y
+
     x = connections.get(b, set())
     x.add(a)
     connections[b] = x
-    for i in x:
-        y = connections.get(i, set())
-        y = y.union(x)
-        connections[i] = y
-    for k, v in connections.items():
-        if len(v) == NUM_BOXES:
-            result = a[0] * b[0]
-            break
-    if result != 0:
+
+    q = list(x)
+    seen = {b}
+    while q:
+        n = q.pop(0)
+        if n in seen:
+            continue
+        seen.add(n)
+        for nn in connections[n]:
+            q.append(nn)
+    if len(seen) == NUM_BOXES:
+        result = a[0] * b[0]
         break
 
 # Part 2 = 42047840
