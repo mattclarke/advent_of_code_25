@@ -92,3 +92,47 @@ for d in ds:
 
 # Part 2 = 42047840
 print(f"answer = {result}")
+
+# Internet solution using Kruskal's algorithm.
+
+
+def find_subtree(parents, i):
+    if parents[i] == i:
+        return i
+    return find_subtree(parents, parents[i])
+
+
+pos_to_id = {}
+parents = []
+rank = []
+
+for i, l in enumerate(lines):
+    pos_to_id[l] = i
+    parents.append(i)
+    rank.append(0)
+
+e = 0
+
+for d in ds:
+    (a, b) = distances[d]
+
+    x = find_subtree(parents, pos_to_id[a])
+    y = find_subtree(parents, pos_to_id[b])
+
+    if x == y:
+        # Forms a loop so reject
+        continue
+    e += 1
+    if e == NUM_BOXES - 1:
+        result = a[0] * b[0]
+        break
+
+    if rank[x] > rank[y]:
+        parents[y] = x
+    elif rank[y] > rank[x]:
+        parents[x] = y
+    else:
+        parents[y] = x
+        rank[x] += 1
+
+print(f"answer = {result}")
