@@ -38,9 +38,13 @@ for d in ds[0:1000]:
     x.add(a)
     connections[b] = x
 
-results = set()
+results = []
+seen = set()
 
 for k, v in connections.items():
+    if k in seen:
+        # Already part of a circuit
+        continue
     nodes = set()
     q = [k]
     while q:
@@ -48,17 +52,14 @@ for k, v in connections.items():
         if a in nodes:
             continue
         nodes.add(a)
+        seen.add(a)
         for n in connections[a]:
             q.append(n)
-    results.add(frozenset(nodes))
+    results.append(len(nodes))
 
-sizes = []
-for r in results:
-    sizes.append(len(r))
+results.sort(reverse=True)
 
-sizes.sort(reverse=True)
-
-result = sizes[0] * sizes[1] * sizes[2]
+result = results[0] * results[1] * results[2]
 
 # Part 1 = 129564
 print(f"answer = {result}")
