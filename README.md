@@ -38,12 +38,18 @@ Try 123:
 - Part 1: Simple nested loop to check if the items fit in any of the ranges.
 - Part 2: First sort the ranges so that overlaps are easier to handle. Loop over the ranges while keeping track of the highest value seen (pos). If pos is less than the lower bound of the range add the whole range, if pos is greater than the lowest bound add the range from pos to the end of the range, or if pos is greater than the end of the range skip the whole range. 
 
-## Day 5
+## Day 6
 - Part 1: Rearrange the data so all the data for each column is in it's own list with the operator at the end. Apply the operator to the rest of the list.
 - Part 2: Remove the operator row and go through the original data starting from the right-most column. For each column collect the chars, create an int from them and store in a list. When a column is empty apply the corresponding operator to the list. Repeat until all columns done.
 
-## Day 6
+## Day 7
 - Part 1: Follow each beam through each layer and count how many splits happen. Use a set for the beams to avoid duplicate splits.
 - Part 2: Count the unique routes through, but DP on the splits otherwise it will take forever. The size of the DP dictionary is also the answer for part 1.
 
 Internet solution: Pascal's triangle like, see code.
+
+## Day 8
+- Part 1: Calculate all the node to node distances and create a dict of distance to node pair. Sort the keys to get the 1000 shortest. For each distance connect the two nodes. Do a BFS for each node to calculate the connected nodes and add to a set (to avoid duplicates). From the set pick the three longest circuits.
+- Part 2: Loop through all the connections starting from the shortest in a way similar to part 1 but for each connection add the two nodes to all nodes that connect to those two nodes. Continue until all 1000 nodes are connected in one circuit. Slow at ~80 seconds (Pypy).
+
+Speed up: After connecting each pair, check to see if one of the pair connects to the other 1000 via a BFS. If it doesn't then continue connecting pairs. Takes ~3 seconds (Pypy).
