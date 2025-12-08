@@ -1,6 +1,5 @@
-import copy
 import sys
-from collections import deque
+import math
 
 
 FILE = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
@@ -8,18 +7,87 @@ FILE = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
 with open(FILE) as f:
     PUZZLE_INPUT = f.read()
 
-lines = [line.strip() for line in PUZZLE_INPUT.split("\n") if line]
-print(lines)
+lines = [
+    tuple([int(x) for x in line.strip().split(",")])
+    for line in PUZZLE_INPUT.split("\n")
+    if line
+]
 
-result = 0
+NUM_BOXES = len(lines)
 
-for line in lines:
-    pass
+distances = {}
 
-# Part 1 = 
+for i, a in enumerate(lines):
+    for j, b in enumerate(lines):
+        if j <= i:
+            continue
+        dist = abs(a[0] - b[0]) ** 2 + abs(a[1] - b[1]) ** 2 + abs(a[2] - b[2]) ** 2
+        distances[math.sqrt(dist)] = (a, b)
+
+ds = list(distances.keys())
+ds.sort()
+
+connections = {}
+
+for d in ds[0:1000]:
+    (a, b) = distances[d]
+    x = connections.get(a, set())
+    x.add(b)
+    connections[a] = x
+    x = connections.get(b, set())
+    x.add(a)
+    connections[b] = x
+
+results = set()
+
+for k, v in connections.items():
+    nodes = set()
+    q = [k]
+    while q:
+        a = q.pop(0)
+        if a in nodes:
+            continue
+        nodes.add(a)
+        for n in connections[a]:
+            q.append(n)
+    results.add(frozenset(nodes))
+
+sizes = []
+for r in results:
+    sizes.append(len(r))
+
+sizes.sort(reverse=True)
+
+result = sizes[0] * sizes[1] * sizes[2]
+
+# Part 1 = 129564
 print(f"answer = {result}")
 
+connections = {}
 result = 0
 
-# Part 2 = 
+for d in ds:
+    (a, b) = distances[d]
+    x = connections.get(a, set())
+    x.add(b)
+    connections[a] = x
+    for i in x:
+        y = connections.get(i, set())
+        y = y.union(x)
+        connections[i] = y
+    x = connections.get(b, set())
+    x.add(a)
+    connections[b] = x
+    for i in x:
+        y = connections.get(i, set())
+        y = y.union(x)
+        connections[i] = y
+    for k, v in connections.items():
+        if len(v) == NUM_BOXES:
+            result = a[0] * b[0]
+            break
+    if result != 0:
+        break
+
+# Part 2 = 42047840
 print(f"answer = {result}")
