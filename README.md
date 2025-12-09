@@ -53,3 +53,8 @@ Internet solution: Pascal's triangle like, see code.
 - Part 2: Loop through all the connections starting from the shortest in a way similar to part 1 but for each connection add the two nodes to all nodes that connect to those two nodes. Continue until all 1000 nodes are connected in one circuit. Slow at ~80 seconds (Pypy).
 
 Speed up: After connecting each pair, check to see if one of the pair connects to the other 1000 via a BFS. If it doesn't then continue connecting pairs. Takes ~3 seconds (Pypy).
+
+
+## Day 9
+- Part 1: Loop through all the pairs and calculate the areas while tracking the maximum. To help with part 2, it keeps all the areas and corresponding tiles.
+- Part 2: Tried a number of different ways which produced the same answer but the answer was wrong. After a lot of rewriting and debugging it turned out I made a mistake in the area calculation for part 1!!! The solution is quite simple: mark the rectangle invalid if either there are red tiles in the rectangle or the edge between two tiles crosses the rectangle. Start from the largest triangle and stop when the first rectangle passes.

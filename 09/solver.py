@@ -1,6 +1,4 @@
-import copy
 import sys
-from collections import deque
 
 
 FILE = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
@@ -8,7 +6,7 @@ FILE = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
 with open(FILE) as f:
     PUZZLE_INPUT = f.read()
 
-lines = [
+tiles = [
     tuple([int(x) for x in line.strip().split(",")])
     for line in PUZZLE_INPUT.split("\n")
     if line
@@ -17,8 +15,8 @@ lines = [
 result = 0
 rects = []
 
-for i, (ax, ay) in enumerate(lines):
-    for j, (bx, by) in enumerate(lines):
+for i, (ax, ay) in enumerate(tiles):
+    for j, (bx, by) in enumerate(tiles):
         if j <= i:
             continue
         area = (abs(ax - bx) + 1) * (abs(ay - by) + 1)
@@ -44,9 +42,9 @@ for size, a, b in rects:
     b = (max_x, max_y)
 
     # Set prev to the last tile, so we cover all edges.
-    prev = lines[~0]
+    prev = tiles[~0]
 
-    for tile in lines:
+    for tile in tiles:
         tx, ty = tile
         px, py = prev
         prev = tile
