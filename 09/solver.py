@@ -31,42 +31,6 @@ rects.sort(reverse=True)
 # Part 1 = 4748769124
 print(f"answer = {result}")
 
-
-def join_tiles(a, b):
-    line = set()
-    (ax, ay) = a
-    (bx, by) = b
-    line.add((ax, ay))
-    line.add((bx, by))
-    if ax > bx:
-        for j in range(bx, ax):
-            line.add((j, ay))
-    elif bx > ax:
-        for j in range(ax, bx):
-            line.add((j, ay))
-    elif ay > by:
-        for j in range(by, ay):
-            line.add((ax, j))
-    elif by > ay:
-        for j in range(ay, by):
-            line.add((ax, j))
-    else:
-        assert False
-    return line
-
-
-border = set()
-
-for i, a in enumerate(lines[:-1]):
-    b = lines[i + 1]
-    temp = join_tiles(a, b)
-    border = border.union(temp)
-
-# Join the loop
-temp = join_tiles(lines[0], lines[~0])
-border = border.union(temp)
-
-
 for size, a, b in rects:
     valid = True
     ax, ay = a
@@ -79,13 +43,14 @@ for size, a, b in rects:
     a = (min_x, min_y)
     b = (max_x, max_y)
 
-    # Set prev to the last tile, so we cover all edges
+    # Set prev to the last tile, so we cover all edges.
     prev = lines[~0]
 
     for tile in lines:
         tx, ty = tile
         px, py = prev
         prev = tile
+
         # If the tile is in the rectange then it isn't valid.
         if min_x < tx < max_x and min_y < ty < max_y:
             valid = False
@@ -97,17 +62,15 @@ for size, a, b in rects:
             # Vertical line
             if tx <= min_x or tx >= max_x:
                 continue
-            if py >= max_y and ty <= min_y:
-                valid = False
-            elif ty >= max_y and py <= min_y:
+            y1, y2 = min(py, ty), max(py, ty)
+            if y2 >= max_y and y1 <= min_y:
                 valid = False
         else:
             # Horizontal line
             if ty <= min_y or ty >= max_y:
                 continue
-            if px >= max_x and tx <= min_x:
-                valid = False
-            elif tx >= max_x and px <= min_x:
+            x1, x2 = min(px, tx), max(px, tx)
+            if x2 >= max_x and x1 <= min_x:
                 valid = False
 
     if valid:
