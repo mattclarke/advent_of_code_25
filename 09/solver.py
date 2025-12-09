@@ -66,10 +66,6 @@ for i, a in enumerate(lines[:-1]):
 temp = join_tiles(lines[0], lines[~0])
 border = border.union(temp)
 
-pruned = []
-
-# Add the first tile to the end, so we can iterate over each "edge"
-lines.append(lines[0])
 
 for size, a, b in rects:
     valid = True
@@ -83,38 +79,20 @@ for size, a, b in rects:
     a = (min_x, min_y)
     b = (max_x, max_y)
 
+    # Set prev to the last tile, so we cover all edges
+    prev = lines[~0]
+
     for tile in lines:
-        tx, ty = tile
-        if min_x < tx < max_x and min_y < ty < max_y:
-            valid = False
-            break
-    if valid:
-        pruned.append((size, a, b))
-
-
-for size, a, b in pruned:
-    valid = True
-    ax, ay = a
-    bx, by = b
-    min_x = min(ax, bx)
-    max_x = max(ax, bx)
-    min_y = min(ay, by)
-    max_y = max(ay, by)
-
-    a = (min_x, min_y)
-    b = (max_x, max_y)
-
-    flines = lines[:]
-    flines.append(lines[0])
-    prev = flines[0]
-
-    for tile in flines:
-        if tile == prev:
-            continue
         tx, ty = tile
         px, py = prev
         prev = tile
+        # If the tile is in the rectange then it isn't valid.
+        if min_x < tx < max_x and min_y < ty < max_y:
+            valid = False
+            break
 
+        # Check to see if any "edges" cross the whole rectangle width-wise or height-wise.
+        # If so, then the rectangle is not valid.
         if tx == px:
             # Vertical line
             if tx <= min_x or tx >= max_x:
@@ -131,8 +109,7 @@ for size, a, b in pruned:
                 valid = False
             elif tx >= max_x and px <= min_x:
                 valid = False
-        if not valid:
-            break
+
     if valid:
         result = size
         break
