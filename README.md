@@ -54,6 +54,7 @@ Internet solution: Pascal's triangle like, see code.
 
 Speed up: After connecting each pair, check to see if one of the pair connects to the other 1000 via a BFS. If it doesn't then continue connecting pairs. Takes ~3 seconds (Pypy).
 
+Internet solution: Kruskal's algorithm, see code.
 
 ## Day 9
 - Part 1: Loop through all the pairs and calculate the areas while tracking the maximum. To help with part 2, it keeps all the areas and corresponding tiles.
