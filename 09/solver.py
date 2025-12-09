@@ -66,18 +66,10 @@ for i, a in enumerate(lines[:-1]):
 temp = join_tiles(lines[0], lines[~0])
 border = border.union(temp)
 
-red_tiles = set(lines)
-tiles_x = []
-tiles_y = []
-
-for r in red_tiles:
-    tiles_x.append(r[0])
-    tiles_y.append(r[1])
-
-
-result = 0
-
 pruned = []
+
+# Add the first tile to the end, so we can iterate over each "edge"
+lines.append(lines[0])
 
 for size, a, b in rects:
     valid = True
@@ -91,13 +83,12 @@ for size, a, b in rects:
     a = (min_x, min_y)
     b = (max_x, max_y)
 
-    count = 0
-    for tile in red_tiles:
+    for tile in lines:
         tx, ty = tile
         if min_x < tx < max_x and min_y < ty < max_y:
-            count += 1
+            valid = False
             break
-    if count == 0:
+    if valid:
         pruned.append((size, a, b))
 
 
