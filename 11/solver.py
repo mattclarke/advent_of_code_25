@@ -1,6 +1,4 @@
-import copy
 import sys
-from collections import deque
 
 
 FILE = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
@@ -18,6 +16,7 @@ for line in lines:
 
 results = set()
 Q = []
+
 for x in nodes["you"]:
     Q.append((x, "you"))
 
@@ -34,3 +33,41 @@ while Q:
 
 # Part 1 = 534
 print(f"answer = {len(results)}")
+
+DP = {}
+
+
+def recurse(curr, target):
+    if curr in DP:
+        return DP[curr]
+
+    if curr == target:
+        return 1
+
+    count = 0
+
+    if curr not in nodes:
+        return 0
+
+    for x in nodes[curr]:
+        count += recurse(x, target)
+    DP[curr] = count
+
+    return count
+
+
+recurse("svr", "fft")
+result = DP["svr"]
+
+DP.clear()
+
+recurse("fft", "dac")
+result *= DP["fft"]
+
+DP.clear()
+
+recurse("dac", "out")
+result *= DP["dac"]
+
+# Part 2 = 499645520864100
+print(f"answer = {result}")
