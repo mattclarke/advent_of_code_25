@@ -59,3 +59,9 @@ Internet solution: Kruskal's algorithm, see code.
 ## Day 9
 - Part 1: Loop through all the pairs and calculate the areas while tracking the maximum. To help with part 2, it keeps all the areas and corresponding tiles.
 - Part 2: Tried a number of different ways which produced the same answer but the answer was wrong. After a lot of rewriting and debugging it turned out I made a mistake in the area calculation for part 1!!! The solution is quite simple: mark the rectangle invalid if either there are red tiles in the rectangle or the edge between two tiles crosses the rectangle. Start from the largest triangle and stop when the first rectangle passes.
+
+## Day 10
+
+## Day 11
+- Part 1: BFS.
+- Part 2: Number of routes explodes so simple BFS or DFS isn't an option. Use DP to find number of routes from 'svr' to 'fft', then 'fft' to 'dac' and, finally, 'dac' to 'out'. Multiple all of them together to get the total number of unique routes from 'svr' to 'out'. There were no routes from 'dac' to 'fft' so that made it simpler.  
