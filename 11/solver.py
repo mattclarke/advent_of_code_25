@@ -9,17 +9,28 @@ with open(FILE) as f:
     PUZZLE_INPUT = f.read()
 
 lines = [line.strip() for line in PUZZLE_INPUT.split("\n") if line]
-print(lines)
 
-result = 0
+nodes = {}
 
 for line in lines:
-    pass
+    parts = line.replace(":", "").split()
+    nodes[parts.pop(0)] = parts
 
-# Part 1 = 
-print(f"answer = {result}")
+results = set()
+Q = []
+for x in nodes["you"]:
+    Q.append((x, "you"))
 
-result = 0
+while Q:
+    curr, path = Q.pop(0)
+    new_path = path + "," + curr
+    if curr == "out":
+        results.add(new_path)
+        continue
 
-# Part 2 = 
-print(f"answer = {result}")
+    for v in nodes[curr]:
+        if v not in new_path:
+            Q.append((v, new_path))
+
+# Part 1 = 534
+print(f"answer = {len(results)}")
