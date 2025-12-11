@@ -64,4 +64,4 @@ Internet solution: Kruskal's algorithm, see code.
 
 ## Day 11
 - Part 1: BFS.
-- Part 2: Number of routes explodes so simple BFS or DFS isn't an option. Use DP to find number of routes from 'svr' to 'fft', then 'fft' to 'dac' and, finally, 'dac' to 'out'. Multiple all of them together to get the total number of unique routes from 'svr' to 'out'. There were no routes from 'dac' to 'fft' so that made it simpler.  
+- Part 2: Number of routes explodes so simple BFS or DFS isn't an option. Use DP to find number of routes from 'svr' to 'fft', then 'fft' to 'dac' and, finally, 'dac' to 'out'. Multiple all of them together to get the total number of unique routes from 'svr' to 'out'. There were no routes from 'dac' to 'fft' so that made it simpler. I think because the graph is unidirectial this has to be the case.
