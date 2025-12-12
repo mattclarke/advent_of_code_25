@@ -78,4 +78,5 @@ Attempts to speed up:
 
 - Weirdly, just inputs that aren't clearly impossible gives the right answer - is this a fluke? Less than a second.
 - Nope, JP had the same thing. Always worth looking at the data before trying to implement something!
+- I suspect my brute force algorithm wouldn't be accurate, it just works because there is much more space than needed.
 
