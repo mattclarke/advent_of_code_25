@@ -160,7 +160,7 @@ for (cols, rows), min_shape, allowed in INPUTS:
     # See if it fits without overlapping.
     cols_by_3 = cols - (cols % 3)
     rows_by_3 = rows - (rows % 3)
-    if non_overlapping_area < rows_by_3 * cols_by_3:
+    if non_overlapping_area <= rows_by_3 * cols_by_3:
         result += 1
         continue
 
