@@ -1,6 +1,5 @@
 import copy
 import sys
-from collections import deque
 
 
 FILE = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
@@ -33,17 +32,6 @@ for line in lines[6].replace(":", "").split("\n"):
 
 # Symmetry means we don't need to try every starting position and/or rotation?
 
-def draw_shape(shape):
-    for r in range(3):
-        line = []
-        for c in range(3):
-            if (r, c) in shape:
-                line.append("#")
-            else:
-                line.append(".")
-        print("".join(line))
-    print("")
-
 
 def rotate_right(shape):
     new_shape = set()
@@ -68,6 +56,43 @@ def rotate_right(shape):
     return new_shape
 
 
+def solve(shapes, area):
+    CACHE = {}
+    num_c, num_r = area
+
+    def recurse(index, layout):
+        if index == len(shapes):
+            return True
+        curr_shape = shapes[index]
+
+        for rr in range(num_r):
+            for cc in range(num_c):
+                for rot in range(4):
+                    new_layout = copy.copy(layout)
+                    if rot > 0:
+                        curr_shape = rotate_right(curr_shape)
+                    # Does shape fit?
+                    fit = True
+                    for r, c in curr_shape:
+                        if (rr + r, cc + c) in layout:
+                            fit = False
+                            break
+                        if rr + r >= num_r:
+                            fit = False
+                            break
+                        if cc + c >= num_c:
+                            fit = False
+                            break
+                    if fit:
+                        for r, c in curr_shape:
+                            new_layout.add((rr + r, cc + c))
+                        if recurse(index + 1, new_layout):
+                            return True
+        return False
+
+    return recurse(0, set())
+
+
 result = 0
 
 for area, allowed in zip(AREAS, ALLOWED):
@@ -77,14 +102,10 @@ for area, allowed in zip(AREAS, ALLOWED):
         allowed_shapes.extend([SHAPES[i]] * a)
         total_shape_area += len(SHAPES[i]) * a
     if total_shape_area > area[0] * area[1]:
-        print("Not a chance")
         continue
+    if solve(allowed_shapes, area):
+        result += 1
+        print(result)
 
-
-# Part 1 = 
-print(f"answer = {result}")
-
-result = 0
-
-# Part 2 = 
+# Part 1 = 437
 print(f"answer = {result}")
