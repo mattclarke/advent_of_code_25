@@ -156,7 +156,6 @@ for (cols, rows), min_shape, allowed in INPUTS:
     if total_shape_area > rows * cols:
         # Impossible
         continue
-    result += 1
 
     # See if it fits without overlapping.
     cols_by_3 = cols - (cols % 3)
