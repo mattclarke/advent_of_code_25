@@ -77,4 +77,5 @@ Attempts to speed up:
 - If we say each shape takes up 9 squares then we can compare it to the total area and if it is less then we know it fits. Down to about 30 seconds.
 
 - Weirdly, just inputs that aren't clearly impossible gives the right answer - is this a fluke? Less than a second.
+- Nope, JP had the same thing. Always worth looking at the data before trying to implement something!
 
