@@ -69,8 +69,12 @@ Internet solution: Kruskal's algorithm, see code.
 Internet solution: cleaner implementation of DP, see code.
 
 ## Day 12:
-- Part 1: Brute force plus skipping the clearly impossible ones takes about 120 seconds (Pypy).
+- Part 1: Brute force plus skipping the clearly impossible ones takes about 170 seconds (Pypy).
 - Part 2: No part 2 on the last day!
 
 Attempts to speed up:
-- For the same width, the first N rows don't change, so we can do some caching so we can start some way in. About 3x faster.
+- For the same width, the first N rows don't change, so we can do some caching so we can start some way in. Give ~60 seconds.
+- If we say each shape takes up 9 squares then we can compare it to the total area and if it is less then we know it fits. Down to about 30 seconds.
+
+- Weirdly, just inputs that aren't clearly impossible gives the right answer - is this a fluke? Less than a second.
+

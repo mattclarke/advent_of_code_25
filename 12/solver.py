@@ -133,6 +133,8 @@ last_width = 0
 for (cols, rows), min_shape, allowed in INPUTS:
     allowed_shapes = []
     total_shape_area = 0
+    non_overlapping_area = sum(allowed) * 9
+
     for i in range(min_shape):
         allowed_shapes.append(0)
         total_shape_area += len(SHAPES[0])
@@ -146,11 +148,23 @@ for (cols, rows), min_shape, allowed in INPUTS:
         total_shape_area += len(SHAPES[4])
         allowed_shapes.append(5)
         total_shape_area += len(SHAPES[5])
+
     for i, a in enumerate(allowed):
         allowed_shapes.extend([i] * (a - min_shape))
         total_shape_area += len(SHAPES[i]) * (a - min_shape)
+
     if total_shape_area > rows * cols:
+        # Impossible
         continue
+    result += 1
+
+    # See if it fits without overlapping.
+    cols_by_3 = cols - (cols % 3)
+    rows_by_3 = rows - (rows % 3)
+    if non_overlapping_area < rows_by_3 * cols_by_3:
+        result += 1
+        continue
+
     if solve(allowed_shapes, rows, cols, min_shape, last_width != cols):
         result += 1
         print(result)
