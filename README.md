@@ -69,5 +69,8 @@ Internet solution: Kruskal's algorithm, see code.
 Internet solution: cleaner implementation of DP, see code.
 
 ## Day 12:
-- Part 1: Brute force takes about 120 seconds (Pypy).
+- Part 1: Brute force plus skipping the clearly impossible ones takes about 120 seconds (Pypy).
 - Part 2: No part 2 on the last day!
+
+Attempts to speed up:
+- For the same width, the first N rows don't change, so we can do some caching so we can start some way in. About 3x faster.

@@ -10,8 +10,7 @@ with open(FILE) as f:
 lines = [line.strip() for line in PUZZLE_INPUT.split("\n\n") if line]
 
 SHAPES = []
-AREAS = []
-ALLOWED = []
+INPUTS = []
 
 for line in lines[:6]:
     slines = line.split("\n")
@@ -24,13 +23,28 @@ for line in lines[:6]:
 
 for line in lines[6].replace(":", "").split("\n"):
     parts = line.split(" ")
-    area = tuple([int(x) for x in parts[0].split("x")])
+    area = [int(x) for x in parts[0].split("x")]
+    area = (min(area), max(area))
     allowances = tuple([int(x) for x in parts[1:]])
-    AREAS.append(area)
-    ALLOWED.append(allowances)
+    min_shape = min(allowances)
+    INPUTS.append((area, min_shape, allowances))
 
 
-# Symmetry means we don't need to try every starting position and/or rotation?
+# Sort by width and secondarily min_shape
+INPUTS.sort(key=lambda x: x[1])
+INPUTS.sort(key=lambda x: x[0][0])
+
+
+def draw(layout, nr, nc):
+    for r in range(nr):
+        line = []
+        for c in range(nc):
+            if (r, c) in layout:
+                line.append("#")
+            else:
+                line.append(".")
+        print("".join(line))
+    print("")
 
 
 def rotate_right(shape):
@@ -56,14 +70,23 @@ def rotate_right(shape):
     return new_shape
 
 
-def solve(shapes, area):
-    CACHE = {}
-    num_c, num_r = area
+CACHE = {}
+
+
+def solve(shapes, num_r, num_c, min_shape, width_changed):
+    if width_changed:
+        CACHE.clear()
 
     def recurse(index, layout):
         if index == len(shapes):
+            # draw(layout, num_r, num_c)
+            # input()
             return True
-        curr_shape = shapes[index]
+
+        curr_shape = SHAPES[shapes[index]]
+
+        if index == min_shape * len(SHAPES) and min_shape not in CACHE:
+            CACHE[min_shape] = layout
 
         for rr in range(num_r):
             for cc in range(num_c):
@@ -90,22 +113,48 @@ def solve(shapes, area):
                             return True
         return False
 
-    return recurse(0, set())
+    # Look in CACHE, so we can start from a known position
+    entry = 0
+    for k in sorted(CACHE):
+        if k > min_shape:
+            break
+        entry = k
+
+    if entry > 0:
+        return recurse(min_shape * len(SHAPES), CACHE[entry])
+    else:
+        print("CACHE MISS")
+        return recurse(0, set())
 
 
 result = 0
+last_width = 0
 
-for area, allowed in zip(AREAS, ALLOWED):
+for (cols, rows), min_shape, allowed in INPUTS:
     allowed_shapes = []
     total_shape_area = 0
+    for i in range(min_shape):
+        allowed_shapes.append(0)
+        total_shape_area += len(SHAPES[0])
+        allowed_shapes.append(1)
+        total_shape_area += len(SHAPES[1])
+        allowed_shapes.append(2)
+        total_shape_area += len(SHAPES[2])
+        allowed_shapes.append(3)
+        total_shape_area += len(SHAPES[3])
+        allowed_shapes.append(4)
+        total_shape_area += len(SHAPES[4])
+        allowed_shapes.append(5)
+        total_shape_area += len(SHAPES[5])
     for i, a in enumerate(allowed):
-        allowed_shapes.extend([SHAPES[i]] * a)
-        total_shape_area += len(SHAPES[i]) * a
-    if total_shape_area > area[0] * area[1]:
+        allowed_shapes.extend([i] * (a - min_shape))
+        total_shape_area += len(SHAPES[i]) * (a - min_shape)
+    if total_shape_area > rows * cols:
         continue
-    if solve(allowed_shapes, area):
+    if solve(allowed_shapes, rows, cols, min_shape, last_width != cols):
         result += 1
         print(result)
+    last_width = cols
 
 # Part 1 = 437
 print(f"answer = {result}")
