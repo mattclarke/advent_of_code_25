@@ -71,3 +71,27 @@ result *= DP["dac"]
 
 # Part 2 = 499645520864100
 print(f"answer = {result}")
+
+DP = {}
+
+
+def internet_solution(curr, seen_fft, seen_dac):
+    if curr == "out":
+        return 1 if seen_fft and seen_dac else 0
+
+    count = 0
+    for x in nodes[curr]:
+        new_fft = seen_fft or x == "fft"
+        new_dac = seen_dac or x == "dac"
+
+        if (x, new_fft, new_dac) in DP:
+            res = DP[(x, new_fft, new_dac)]
+        else:
+            res = internet_solution(x, new_fft, new_dac)
+            DP[(x, new_fft, new_dac)] = res
+        count += res
+
+    return count
+
+
+print(f"answer = {internet_solution('svr', False, False)}")
