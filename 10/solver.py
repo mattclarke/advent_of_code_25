@@ -108,7 +108,6 @@ print(f"answer = {result}")
 
 
 def is_valid(candidates, foo, jolts):
-    any_incomplete = False
     for k, v in foo.items():
         incomplete = False
         bar = []
@@ -117,30 +116,30 @@ def is_valid(candidates, foo, jolts):
                 bar.append(candidates[vv])
             else:
                 incomplete = True
-                any_incomplete = True
                 break
         if incomplete:
-            print("incomplete", candidates)
             continue
         if sum(bar) != jolts[k]:
             return False
     return True
-    return not any_incomplete
 
 
 best = 1000000000000
     
-def solve(foo, switches, jolts):
+def solve(foo, switches, jolts, maximums):
     global best
     def recurse(i, candidates):
         global best
+        if not is_valid(candidates, foo, jolts):
+            return
+        if sum(candidates) >= best:
+            return
         if len(candidates) == len(switches):
-            if is_valid(candidates, foo, jolts):
-                best = min(best, sum(candidates))
-                print(candidates, sum(candidates), best)
+            best = min(best, sum(candidates))
+            print(candidates, sum(candidates), best)
             return
         # print(i, candidates)
-        for x in range(0, max(jolts)):
+        for x in range(0, maximums[i] + 1):
             candidates.append(x)
             recurse(i+1, candidates)
             candidates.pop()
@@ -157,13 +156,12 @@ for _, switches, jolts in input_data:
         for s in switch:
             foo[s].add(i)
 
-    print(foo)
-    # print(is_valid({0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1}, foo, jolts))
-    # print(is_valid({0: 2, 1: 4, 2: 1, 3: 1, 4: 2, 5: 1}, foo, jolts))
-    # print(is_valid({0: 1, 1: 4, 2: 0, 3: 2, 4: 2, 5: 1}, foo, jolts))
+    maximums = [10000 for _ in switches]
+    for k, v in foo.items():
+        for vv in v:
+            maximums[vv] = min(maximums[vv], jolts[k])
 
-    result += solve(foo, switches, jolts)
-    assert False
+    result += solve(foo, switches, jolts, maximums)
 
 # Part 2 = 
 print(f"answer = {result}")
