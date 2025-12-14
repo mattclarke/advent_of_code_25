@@ -108,13 +108,24 @@ print(f"answer = {result}")
 
 
 def is_valid(candidates, foo, jolts):
+    any_incomplete = False
     for k, v in foo.items():
+        incomplete = False
         bar = []
         for vv in v:
+            # if vv in candidates:
             bar.append(candidates[vv])
+            # else:
+            #     incomplete = True
+            #     any_incomplete = True
+            #     break
+        if incomplete:
+            print("incomplete", candidates)
+            continue
         if sum(bar) != jolts[k]:
             return False
     return True
+    return not any_incomplete
 
 
 best = 1000000000000
@@ -123,17 +134,18 @@ def solve(foo, switches, jolts):
     global best
     def recurse(i, candidates):
         global best
-        if i >= len(candidates):
+        if len(candidates) == len(switches):
             if is_valid(candidates, foo, jolts):
                 best = min(best, sum(candidates))
-                print("here", candidates, sum(candidates), best)
+                print(candidates, sum(candidates), best)
             return
         # print(i, candidates)
         for x in range(0, max(jolts)):
-            candidates[i] = x
+            candidates.append(x)
             recurse(i+1, candidates)
+            candidates.pop()
     best = 1000000000000
-    recurse(0, [0 for _ in switches])
+    recurse(0, [])
     print(best)
     return best
 
@@ -151,6 +163,7 @@ for _, switches, jolts in input_data:
     # print(is_valid({0: 1, 1: 4, 2: 0, 3: 2, 4: 2, 5: 1}, foo, jolts))
 
     result += solve(foo, switches, jolts)
+    assert False
 
 # Part 2 = 
 print(f"answer = {result}")
