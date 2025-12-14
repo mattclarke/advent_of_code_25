@@ -113,12 +113,12 @@ def is_valid(candidates, foo, jolts):
         incomplete = False
         bar = []
         for vv in v:
-            # if vv in candidates:
-            bar.append(candidates[vv])
-            # else:
-            #     incomplete = True
-            #     any_incomplete = True
-            #     break
+            if vv < len(candidates):
+                bar.append(candidates[vv])
+            else:
+                incomplete = True
+                any_incomplete = True
+                break
         if incomplete:
             print("incomplete", candidates)
             continue
