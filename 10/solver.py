@@ -154,8 +154,10 @@ for _, switches, jolts in input_data:
     foo = {x: set() for x in range(len(jolts))}
     for i, switch in enumerate(switches):
         for s in switch:
-            foo[s].add(i)
+            foo[s].add(chr(ord('A') + i))
 
+    print(foo)
+    assert False
     maximums = [10000 for _ in switches]
     for k, v in foo.items():
         for vv in v:
